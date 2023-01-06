@@ -1,5 +1,3 @@
-const SWAPI_PEOPLE = 'https://swapi.dev/api/people'
-
 export const getApiResource = async (url) => {
 
     try {
@@ -18,10 +16,10 @@ export const getApiResource = async (url) => {
 
 }
 
-(async () => {
-    const body = await getApiResource(SWAPI_PEOPLE)
-    console.log(body)
-})()
+// (async () => {
+//     const body = await getApiResource(SWAPI_PEOPLE)
+//     console.log(body)
+// })()
 
 // Аналог через промисы, кстати
 
