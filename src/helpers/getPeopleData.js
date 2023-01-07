@@ -5,7 +5,7 @@ import {
   HTTPS,
   GUIDE_IMAGE_EXTENSION,
   URL_IMAGE_PERSON,
-} from '../constants/api'
+} from '@constants/api'
 
 const getId = (url, category) => {
   const id = url.replace(HTTPS + SWAPI_ROOT + category, '').replace(/\//g, '')
