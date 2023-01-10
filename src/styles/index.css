@@ -10,8 +10,11 @@
     --font-family-main: sans-serif;
     --font-size-main: 16px;
     --font-bold: 600;
+
+    --spacing-small: 10px;
     --spacing-medium: 20px;
     --spacing-large: 30px;
+    
     --border-radius-small: 3px;
     --font-size-header: 26px;
     --font-size-subheader: 18px;
