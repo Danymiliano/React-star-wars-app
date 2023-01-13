@@ -9,30 +9,30 @@ const PersonFilms = ({ personFilms }) => {
   const [filmsName, setFilmsName] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const filmsHTTPS = personFilms.map((url) => changeHTTP(url))
       const response = await makeConcurrentRequest(filmsHTTPS)
 
-      console.log(response)
-
       setFilmsName(response)
     })()
-  }, [])
+  }, [personFilms])
 
-  console.log(personFilms)
   return (
     <>
-      <div>
-        <ul>
-          {filmsName.map(({ title, episode_id }) => {
-            return (
-              <li key={episode_id}>
-                <span>Episode {episode_id}</span>
-                <span> : </span>
-                <span>{title}</span>
-              </li>
-            )
-          })}
+      <div className={styles.wrapper}>
+        <ul className={styles.list__container}>
+          {filmsName.sort((a, z) => a.episode_id - z.episode_id)
+          .map(({ title, episode_id }) => {
+              return (
+                <li key={episode_id} className={styles.list__item}>
+                  <span className={styles.item__episode}>
+                    Episode {episode_id}
+                  </span>
+                  <span className={styles.item__colon}> : </span>
+                  <span className={styles.item__title}>{title}</span>
+                </li>
+              )
+            })}
         </ul>
       </div>
     </>

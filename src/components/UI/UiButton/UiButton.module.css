@@ -1,20 +1,14 @@
 .button {
     min-width: 100px;
-    padding: 10px;
+    padding: 10px 10px;
     border-radius: 3px;
-
     font-size: var(--font-size-small);
     font-family: var(--font-family-main);
     font-weight: var(--font-bold);
-
     background: none;
     outline: none;
-
     transition: var(--transition);
     cursor: pointer;
-
-    padding: 10px 20px;
-    font-size: 18px;
 }
 
 .button:disabled,
@@ -25,9 +19,13 @@
     cursor: auto;
 }
 
+/***************************************************
+THEME
+/***************************************************/
+
 .dark {
     border: 1px solid var(--color-white);
-    color: var(--color-white)
+    color: var(--color-white);
 }
 
 .dark:hover {

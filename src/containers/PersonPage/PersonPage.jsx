@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import PropTypes from 'prop-types'
 
 import { withErrorApi } from '@hoc/withErrorApi'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
 
 import PersonInfo from '@components/PersonPage/PersonInfo'
 import PersonPhoto from '@components/PersonPage/PersonPhoto'
 import PersonLinkBack from '@components/PersonPage/PersonLinkBack'
-import PersonFilms from '@components/PersonPage/PersonFilms'
+import UiLoading from '@ui/UiLoading'
 
 import { getApiResource } from '@utils/network'
 import { getPeopleImage } from '@helpers/getPeopleData'
@@ -16,17 +17,27 @@ import { useParams } from 'react-router'
 
 import styles from './PersonPage.module.css'
 
+const PersonFilms = React.lazy(() =>
+  import('@components/PersonPage/PersonFilms')
+)
+
 const PersonPage = ({ setErrorApi }) => {
+  const [personId, setPersonId] = useState(null)
   const [personInfo, setPersonInfo] = useState(null)
   const [personName, setPersonName] = useState(null)
   const [personPhoto, setPersonPhoto] = useState(null)
   const [personFilms, setPersonFilms] = useState(null)
+  const [personFavorite, setPersonFavorite] = useState(false)
 
+  const storeData = useSelector((state) => state.favoriteReducer)
   const { id } = useParams()
 
   useEffect(() => {
     (async () => {
       const res = await getApiResource(`${API_PERSON}/${id}/`)
+
+      setPersonFavorite(!!storeData[id]);
+      setPersonId(id)
 
       if (res) {
         setPersonInfo([
@@ -39,19 +50,15 @@ const PersonPage = ({ setErrorApi }) => {
           { title: 'Gender', data: res.gender },
         ])
 
-        // films: 'https://swapi.dev/api/films/1/'
-
         setPersonName(res.name)
         setPersonPhoto(getPeopleImage(id))
 
         res.films.length && setPersonFilms(res.films)
 
-        setErrorApi(false)
-      } else {
-        setErrorApi(true)
       }
+      setErrorApi(!res)
     })()
-  }, [id, setErrorApi])
+  }, [id, setErrorApi, storeData])
 
   return (
     <>
@@ -61,11 +68,21 @@ const PersonPage = ({ setErrorApi }) => {
         <span className={styles.person__name}>{personName}</span>
 
         <div className={styles.container}>
-          <PersonPhoto personPhoto={personPhoto} personName={personName} />
+          <PersonPhoto
+            personFavorite={personFavorite}
+            setPersonFavorite={setPersonFavorite}
+            personId={personId}
+            personPhoto={personPhoto}
+            personName={personName}
+          />
 
           {personInfo && <PersonInfo personInfo={personInfo} />}
 
-          {personFilms && <PersonFilms personFilms={personFilms} />}
+          {personFilms && (
+            <Suspense fallback={<UiLoading />}>
+              <PersonFilms personFilms={personFilms} />
+            </Suspense>
+          )}
         </div>
       </div>
     </>

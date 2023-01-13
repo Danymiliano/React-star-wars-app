@@ -13,8 +13,6 @@ import {
 import { API_PEOPLE } from '@constants/api'
 import { useQueryParams } from '@hooks/useQueryParams'
 
-import styles from './PeoplePage.module.css'
-
 const PeoplePage = ({ setErrorApi }) => {
   const [people, setPeople] = useState(null)
   const [prevPage, setPrevPage] = useState(null)
@@ -39,14 +37,14 @@ const PeoplePage = ({ setErrorApi }) => {
         }
       })
 
+      setPeople(peopleList)
       setPrevPage(changeHTTP(body.previous))
       setNextPage(changeHTTP(body.next))
       setCounterPage(getPeoplePageId(url))
 
       setPeople(peopleList)
-      setErrorApi(false)
-    } else {
-      setErrorApi(true)
+      
+      setErrorApi(!body)
     }
   }
 
