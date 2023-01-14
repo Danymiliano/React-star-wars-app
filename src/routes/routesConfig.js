@@ -3,6 +3,9 @@ import HomePage from '@containers/HomePage'
 import NotFoundPage from '@containers/NotFoundPage'
 import PersonPage from '@containers/PersonPage'
 import FavoritesPage from '@containers/FavoritesPage'
+import SearchPage from '@containers/SearchPage'
+import ErrorMessage from '@components/ErrorMessage'
+
 
 import getId from '@helpers/getId'
 
@@ -24,6 +27,11 @@ const routesConfig = [
     },
     {
         id: getId(),
+        path: '/search',
+        element: <SearchPage />
+    },
+    {
+        id: getId(),
         path: '/people/:id',
         element: <PersonPage />
     },
@@ -32,6 +40,12 @@ const routesConfig = [
         path: '*',
         exact: false,
         element: <NotFoundPage />
+    },
+    {
+        id: getId(),
+        path: '/fail',
+        exact: false,
+        element: <ErrorMessage />
     },
     {
         id: getId(),
